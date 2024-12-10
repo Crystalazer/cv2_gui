@@ -24,7 +24,7 @@
 ```bash
 pip install cv2_gui
 ```
-This will also install dependencies such as `cv2` and `numpy`
+This will also install dependencies such as `cv2` and `numpy`.
 
 ## Button Types
 
@@ -38,7 +38,7 @@ This will also install dependencies such as `cv2` and `numpy`
 
 
 ### Toggle Button
-Toggle button can switch between on and off state performing 1 of 2 actions based on current state
+Toggle button can switch between on and off state performing 1 of 2 actions based on current state.
 #### Parameters for `create_toggle_button`
 
 | Parameter Name   | Description                                                                 | Type                |
@@ -60,25 +60,26 @@ def display_image(img):
 ```
 
 
-import toggle button, button manager and dependecies from library
+import toggle button, button manager and dependecies from library.
 ```python
-from cv2.gui import create_button_manager, create_toggle_button
+from cv2_gui import create_button_manager, create_toggle_button
 import cv2
 import numpy as np
 
 toggle=create_toggle_button('ON','OFF',display_image,display_image,tooltip="A simple on-off button")
 
 ```
-this will create a button which when pressed will display the passed image
+this will create a button which when pressed will display the passed image.
 ```python
 sample = cv2.imread('sample.png')
 while 1:
     output = toggle.update([sample],[None])
     output = create_button_manager.update(output)
 ```
-first argument of `update` is `argument_on` which will be passed to `on_callabck` and second argument is `argument_off` passed to `off_callback` these are run when the corresponding state is active
+first argument of `update` is `argument_on` which will be passed to `on_callabck` and second argument is `argument_off` passed to `off_callback` these are run when the corresponding state is active.
 
-You can press `q` to close the window and stop execution
+You can press `q` to close the window and stop execution,
+Hovering over the button will display the tooltip.
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
@@ -86,11 +87,76 @@ You can press `q` to close the window and stop execution
     <p><em>Default/Off State</em></p>
   </div>
   <div style="display: inline-block;">
+    <img src="images/toggle_hover.png" width="400" />
+    <p><em>Hover state</em></p>
+  </div>
+  <div style="display: inline-block;">
     <img src="images/toggle_on_button.png" width="400" />
     <p><em>On state</em></p>
   </div>
+  
 </div>
 
+### Cycle Button
+Cycle button can switch between multiple states performing various actions based on current state.
+#### Parameters for `create_cycle_button`
+| Parameter   | Description                                                                 | Type                        |
+|-------------|-----------------------------------------------------------------------------|-----------------------------|
+| `modes`     | The text that will be displayed on the button when in a particular mode.     | List of Strings             |
+| `callbacks` | The functions that will run when the button is in a selected mode.          | List of Functions           |
+| `toggle_once` | If `True`, the callback function runs every update; if `False`, runs once per state change. | Boolean                    |
+| `tooltip`   | Text displayed when you hover the mouse on the button, providing further information. | String                      |
+
+#### example
+a basic function that will be executed based on button state
+```python
+def convert_img(arguments):
+    type,frame=arguments
+
+    if type.lower()=="hsv":
+        frame=cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
+    elif type.lower()=="rgb":
+        frame=cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+    elif type.lower()=="bw":
+        frame=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+        frame=cv2.merge([frame, frame, frame])
+
+    return frame
+```
 
 
+import cycle button, button manager and dependecies from library.
+```python
+from cv2_gui import create_button_manager, create_cycle_button
+import cv2
+import numpy as np
 
+cycle=cycle=create_cycle_button(["BGR","RGB"],[convert_img,convert_img],tooltip="convert image color format")
+```
+this will create a button which when cycled will convert image formats of the passed image.
+```python
+sample = cv2.imread('sample.png')
+while 1:
+    output = cycle.update([["BGR",output],["RGB",output]])
+    output = create_button_manager.update(output)
+```
+first argument of `update` is `arguments` the first element of argument will be passed to first callback function and so on.
+
+You can press `q` to close the window and stop execution,
+Hovering over the button will display the tooltip.
+
+<div align="center">
+  <div style="display: inline-block; margin-right: 20px;">
+    <img src="images/cycle_bgr.png" width="400" />
+    <p><em>Default/BGR State</em></p>
+  </div>
+  <div style="display: inline-block;">
+    <img src="images/cycle_hover.png" width="400" />
+    <p><em>Hover state</em></p>
+  </div>
+  <div style="display: inline-block;">
+    <img src="images/cycle_rgb.png" width="400" />
+    <p><em>RGB mode</em></p>
+  </div>
+
+  
