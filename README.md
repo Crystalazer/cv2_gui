@@ -83,15 +83,15 @@ Hovering over the button will display the tooltip.
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="images/toggle_off_button.png" width="400" />
+    <img src="images/toggle_off_button.png" width="600" />
     <p><em>Default/Off State</em></p>
   </div>
   <div style="display: inline-block;">
-    <img src="images/toggle_hover.png" width="400" />
+    <img src="images/toggle_hover.png" width="600" />
     <p><em>Hover state</em></p>
   </div>
   <div style="display: inline-block;">
-    <img src="images/toggle_on_button.png" width="400" />
+    <img src="images/toggle_on_button.png" width="600" />
     <p><em>On state</em></p>
   </div>
   
@@ -147,15 +147,15 @@ Hovering over the button will display the tooltip.
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="images/cycle_bgr.png" width="400" />
+    <img src="images/cycle_bgr.png" width="600" />
     <p><em>Default/BGR State</em></p>
   </div>
   <div style="display: inline-block;">
-    <img src="images/cycle_hover.png" width="400" />
+    <img src="images/cycle_hover.png" width="600" />
     <p><em>Hover state</em></p>
   </div>
   <div style="display: inline-block;">
-    <img src="images/cycle_rgb.png" width="400" />
+    <img src="images/cycle_rgb.png" width="600" />
     <p><em>RGB mode</em></p>
   </div>
 
