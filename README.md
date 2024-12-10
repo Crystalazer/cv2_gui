@@ -80,16 +80,17 @@ first argument of `update` is `argument_on` which will be passed to `on_callabck
 
 You can press `q` to close the window and stop execution
 
-<div style="display: flex; justify-content: space-between;">
-  <figure style="text-align: center;">
-    <img src="images/toggle_off_button.png" width="400" />
-    <figcaption>Default/Off State</figcaption>
-  </figure>
-  <figure style="text-align: center;">
-    <img src="images/toggle_on_button.png" width="400" />
-    <figcaption>On State</figcaption>
-  </figure>
+<div align="center">
+  <div style="display: inline-block; margin-right: 20px;">
+    <img src="images/toggle_off_button.png" width="500" />
+    <p><em>Default/Off State</em></p>
+  </div>
+  <div style="display: inline-block;">
+    <img src="images/toggle_on_button.png" width="500" />
+    <p><em>On state</em></p>
+  </div>
 </div>
+
 
 
 
