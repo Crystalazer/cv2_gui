@@ -82,11 +82,11 @@ You can press `q` to close the window and stop execution
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="images/toggle_off_button.png" width="100" />
+    <img src="images/toggle_off_button.png" width="400" />
     <p><em>Default/Off State</em></p>
   </div>
   <div style="display: inline-block;">
-    <img src="images/toggle_on_button.png" width="100" />
+    <img src="images/toggle_on_button.png" width="400" />
     <p><em>On state</em></p>
   </div>
 </div>
