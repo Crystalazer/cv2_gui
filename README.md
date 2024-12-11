@@ -139,13 +139,9 @@ first argument of `update` is `arguments` the first element of argument will be 
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
-<div align="center">
-  <video width="800" autoplay loop muted>
-    <source src="media/cycle_video.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <p><em>Cycle Button Demo</em></p>
-</div>
+<video loop src="media/cycle_video.mp4" title="Cycle Button Demo"></video>
+
+
 
 
 
