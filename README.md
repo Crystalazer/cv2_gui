@@ -82,7 +82,7 @@ You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
 
-<video controls loop src="media/toggle_video.mp4" title="Toggle Button Demo"></video>
+<video controls width="800" muted loop src="media/toggle_video.mp4" title="Toggle Button Demo"></video>
 
 ### Cycle Button
 Cycle button can switch between multiple states performing various actions based on current state.
@@ -133,7 +133,7 @@ first argument of `update` is `arguments` the first element of argument will be 
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
-<video controls loop src="media/cycle_video.mp4" title="Cycle Button Demo"></video>
+<video controls width="800" muted loop src="media/cycle_video.mp4" title="Cycle Button Demo"></video>
 
 
 
