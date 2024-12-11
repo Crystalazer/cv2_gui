@@ -133,8 +133,9 @@ first argument of `update` is `arguments` the first element of argument will be 
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
-<video controls width="800" muted loop src="media/cycle_video.mp4" title="Cycle Button Demo"></video>
-
+<div align='center'>
+<video  controls width="400" muted loop src="media/cycle_video.mp4" title="Cycle Button Demo"></video>
+</div>
 
 
 
