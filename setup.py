@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="cv2_gui",
-    version="0.1.1",
+    version="0.2.2",
     description="A library to create buttons using OpenCV (cv2)",
     author="Tarun Shenoy",
     author_email="tgshenoy1@gmail.com",

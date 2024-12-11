@@ -769,7 +769,7 @@ class create_slider():
     '''
     Purpose:
     ---
-    create a slider.
+    A slider allows users to adjust a value by dragging a handle along a track, with the value returned for use in other actions or settings.
 
     Input Arguments:
     ---
@@ -879,10 +879,13 @@ class create_slider():
 
 
         self.slider_val=self.lower
+        self.value=self.slider_val
         self.ranged=ranged
 
         if self.ranged:
             self.slider_val_upper=self.upper
+            self.value=[self.slider_val,self.slider_val_upper]
+
 
         self.radius=7
         
