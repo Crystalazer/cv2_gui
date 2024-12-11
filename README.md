@@ -129,8 +129,9 @@ cycle=cycle=create_cycle_button(["BGR","RGB"],[convert_img,convert_img],tooltip=
 this will create a button which when cycled will convert image formats of the passed image.
 ```python
 sample = cv2.imread('sample.png')
+
 while 1:
-    output = cycle.update([["BGR",output],["RGB",output]])
+    output = cycle.update([["BGR",sample],["RGB",sample],["BW",sample]])
     output = create_button_manager.update(output)
 ```
 first argument of `update` is `arguments` the first element of argument will be passed to first callback function and so on.
