@@ -143,58 +143,6 @@ Hovering over the button will display the tooltip.
   </div>
 </div>
 
-
-### Toggle Button
-Toggle button can switch between on and off state performing 1 of 2 actions based on current state.
-#### Parameters for `create_toggle_button`
-
-| Parameter Name   | Description                                                                 | Type                |
-|------------------|-----------------------------------------------------------------------------|---------------------|
-| `on_text`        | The text displayed on the button when it is in the "on" state.                | `str`               |
-| `off_text`       | The text displayed on the button when it is in the "off" state.               | `str`               |
-| `on_callback`    | The function that will run when the button is in the "on" state.              | `function`          |
-| `off_callback`   | The function that will run when the button is in the "off" state.             | `function` or `None`|
-| `toggle_once`    | If `True`, will run the callback function every update; otherwise, it runs the callback only when the state changes. | `bool`              |
-| `on_color`       | The color of the button in the "on" state, represented as a list of RGB values. | `List[float, float, float]` |
-| `off_color`      | The color of the button in the "off" state, represented as a list of RGB values. | `List[float, float, float]` |
-| `tooltip`        | The text displayed when you hover over the button, providing additional information about the button's state. | `str`               |
-
-#### example
-a basic function that will be executed based on button state
-```python
-def display_image(img):
-    return img[0]
-```
-
-
-import toggle button, button manager and dependecies from library.
-```python
-from cv2_gui import create_button_manager, create_toggle_button
-import cv2
-import numpy as np
-
-toggle=create_toggle_button('ON','OFF',display_image,display_image,tooltip="A simple on-off button")
-
-```
-this will create a button which when pressed will display the passed image.
-```python
-sample = cv2.imread('sample.png')
-while 1:
-    output = toggle.update([sample],[None])
-    output = create_button_manager.update(output)
-```
-first argument of `update` is `argument_on` which will be passed to `on_callabck` and second argument is `argument_off` passed to `off_callback` these are run when the corresponding state is active.
-
-You can press `q` to close the window and stop execution,
-Hovering over the button will display the tooltip.
-
-<div align="center">
-  <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/toggle_video.gif" width="600" />
-    <p><em>Toggle Button Demo</em></p>
-  </div>
-</div>
-
 ### Slider
 
 A slider allows users to adjust a value by dragging a handle along a track, with the value returned for use in other actions or settings.
