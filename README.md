@@ -137,6 +137,8 @@ Hovering over the button will display the tooltip.
 <video  controls width="200" muted loop src="media/cycle_video.mp4" title="Cycle Button Demo"></video>
 </div>
 
+<video controls src="cycle_video_resized.mp4" title="Title"></video>
+
 
 
 
