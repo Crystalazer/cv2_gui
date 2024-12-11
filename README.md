@@ -81,8 +81,12 @@ first argument of `update` is `argument_on` which will be passed to `on_callabck
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
-
-<video controls width="800" muted loop src="media/toggle_video.mp4" title="Toggle Button Demo"></video>
+<div align="center">
+  <div style="display: inline-block; margin-right: 20px;">
+    <img src="media/toggle_video.gif" width="800" />
+    <p><em>Toggle Button Demo</em></p>
+  </div>
+</div>
 
 ### Cycle Button
 Cycle button can switch between multiple states performing various actions based on current state.
@@ -123,9 +127,8 @@ cycle=cycle=create_cycle_button(["BGR","RGB"],[convert_img,convert_img],tooltip=
 this will create a button which when cycled will convert image formats of the passed image.
 ```python
 sample = cv2.imread('sample.png')
-
 while 1:
-    output = cycle.update([["BGR",sample],["RGB",sample],["BW",sample]])
+    output = cycle.update([["BGR",output],["RGB",output]])
     output = create_button_manager.update(output)
 ```
 first argument of `update` is `arguments` the first element of argument will be passed to first callback function and so on.
@@ -133,14 +136,11 @@ first argument of `update` is `arguments` the first element of argument will be 
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
-<div align='center'>
-<video  controls width="200" muted loop src="media/cycle_video.mp4" title="Cycle Button Demo"></video>
+<div align="center">
+  <div style="display: inline-block; margin-right: 20px;">
+    <img src="media/cycle_video.gif" width="800" />
+    <p><em>Cycle Button Demo</em></p>
+  </div>
 </div>
-
-<video controls src="cycle_video_resized.mp4" title="Title"></video>
-
-
-
-
 
   
