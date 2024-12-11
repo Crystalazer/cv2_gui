@@ -83,7 +83,7 @@ Hovering over the button will display the tooltip.
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/toggle_video.gif" width="800" />
+    <img src="media/toggle_video.gif" width="600" />
     <p><em>Toggle Button Demo</em></p>
   </div>
 </div>
@@ -138,9 +138,8 @@ Hovering over the button will display the tooltip.
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/cycle_video.gif" width="800" />
+    <img src="media/cycle_video.gif" width="600" />
     <p><em>Cycle Button Demo</em></p>
   </div>
 </div>
 
-![alt text](media/cycle_video.gif)
