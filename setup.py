@@ -2,10 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="cv2_gui",
-    version="0.2.6",
+    version="0.3.0",
     description="A library to create buttons using OpenCV (cv2)",
     author="Tarun Shenoy",
     author_email="tgshenoy1@gmail.com",
+    url='https://github.com/Crystalazer/cv2_gui',
     packages=find_packages(),
     install_requires=["opencv-contrib-python","numpy"],
     classifiers=[
