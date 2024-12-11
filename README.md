@@ -206,7 +206,7 @@ def brightness_filter(frame,bounds):
 ```
 
 
-import toggle button, button manager and dependecies from library.
+import slider, button manager and dependecies from library.
 ```python
 from cv2_gui import create_button_manager, create_slider
 import cv2
@@ -232,5 +232,116 @@ Hovering over the button will display the tooltip.
   <div style="display: inline-block; margin-right: 20px;">
     <img src="media/slider_ranged_video.gif" width="600" />
     <p><em>Slider Ranged Demo</em></p>
+  </div>
+</div>
+
+
+### Eyedropper
+
+An eyedropper tool allows users to select a color from an image by clicking on the required pixel, displaying the selected color value.
+
+#### Parameters for `create_eyedropper`
+
+| **Parameter**       | **Type**       | **Description**                                                                                      |
+|----------------------|----------------|------------------------------------------------------------------------------------------------------|
+| `text`              | String         | The text displayed on the button.                                                                   |
+| `toggle_duration`   | Float          | The duration (in seconds) for which the commanded function will execute before resetting. Overrides and resets if another key is pressed. |
+| `toggle_once`       | Boolean        | If true, the callback function will run on every update. If false, it will run once when the state changes. |
+| `on_color`          | List(1x3)      | The color of the button when it is pressed (RGB values).                                            |
+| `off_color`         | List(1x3)      | The color of the button when it is released (RGB values).                                           |
+| `tooltip`           | String         | The text displayed when hovering over the button, providing additional information about its states. |
+
+
+#### example
+
+import eyedropper, button manager and dependecies from library.
+```python
+from cv2_gui import create_button_manager, create_eyedropper
+import cv2
+import numpy as np
+
+dropper=create_eyedropper()
+```
+this will create an eyedropper tool which will show the pixel values in BGR and HSV of the clicked pixel.
+```python
+while 1:
+    sample = cv2.imread('sample.png')
+    create_button_manager.update(sample)
+```
+You can press `q` to close the window and stop execution,
+Hovering over the button will display the tooltip.
+
+<div align="center">
+  <div style="display: inline-block; margin-right: 20px;">
+    <img src="media/eyedropper_video.gif" width="600" />
+    <p><em>Eyedropper Demo</em></p>
+  </div>
+</div>
+
+### D-pad
+A D-pad (Directional pad) allows users to provide directional input (e.g., up, down, left, right) for navigation or control, with the selected direction respective action will be performed.
+
+#### Parameters for `create_dpad`
+
+| **Parameter**       | **Type**                | **Description**                                                                                      |
+|----------------------|-------------------------|------------------------------------------------------------------------------------------------------|
+| `text`              | String                 | The text displayed on the button.                                                                   |
+| `toggle_duration`   | Float                  | The duration (in seconds) for which the commanded function will execute before resetting. Overrides and resets if another key is pressed. |
+| `actions`           | List[functions]        | A list of functions corresponding to actions for `None`, `w` (up), `a` (left), `s` (down), and `d` (right) key presses. |
+| `toggle_once`       | Boolean                | If true, the callback function will run on every update. If false, it will run once when the state changes. |
+| `on_color`          | List(1x3)              | The color of the button when it is pressed (RGB values).                                            |
+| `off_color`         | List(1x3)              | The color of the button when it is released (RGB values).                                           |
+| `tooltip`           | String                 | The text displayed when hovering over the button, providing additional information about its states. |
+
+
+
+#### example
+
+Basic functions which will be executed when corresponding button in pressed.
+```python
+global x,y
+x=100
+y=100
+def w_action():
+    global x,y
+    y-=2
+
+def a_action():
+    global x,y
+    x-=2
+
+def s_action():
+    global x,y
+    y+=2
+
+def d_action():
+    global x,y
+    x+=2
+```
+
+import Dpad, button manager and dependecies from library.
+```python
+from cv2_gui import create_button_manager, create_dpad
+import cv2
+import numpy as np
+
+dpad=create_dpad(actions=[None,w_action,a_action,s_action,d_action])
+```
+this will create a Dpad which moves a ball up, down, left, right according to direction pressed.
+```python
+while 1:
+    black_image=np.zeros((600,800,3))
+    cv2.circle(black_image,(x,y),10,(1,1,1),-1)
+    create_button_manager.update(black_image)
+```
+Corresponding key will highlight on the window to indicate which key is pressed.
+
+You can press `q` to close the window and stop execution,
+Hovering over the button will display the tooltip.
+
+<div align="center">
+  <div style="display: inline-block; margin-right: 20px;">
+    <img src="media/dpad_demo.gif" width="600" />
+    <p><em>Dpad Demo</em></p>
   </div>
 </div>

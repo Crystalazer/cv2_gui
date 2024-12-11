@@ -599,7 +599,7 @@ class create_eyedropper:
     '''
     Purpose:
     ---
-    create an eyedropper to check pixel value.
+    An eyedropper tool allows users to select a color from an image by clicking on the required pixel, displaying the selected color value.
 
     Input Arguments:
     ---
@@ -1080,13 +1080,18 @@ class create_dpad():
     '''
     Purpose:
     ---
-    create a dpad.
+    A D-pad (Directional pad) allows users to provide directional input (e.g., up, down, left, right) for navigation or control, with the selected direction respective action will be performed.
 
     Input Arguments:
     ---
     `text` :  [ String ]
         Its the text that will be displayed on the button.
     
+    `toggle_duration` : [ Float ]
+        It will keep executing the commanded function for this duration before resetting, is overridden and reset if another key is pressed
+    
+    `actions` :  [ List[functions] ]
+            Its the functions that run when None, w, a, s, d is pressed accordingly
 
     `toggle_once` : [ Boolean ]
         If true will run callback function every update
@@ -1113,9 +1118,9 @@ class create_dpad():
     _max_instances = 1
     _instances_created = 0
         
-    def __init__(self, text:str="movement", toggle_once:bool=False, on_color:List[float] = [0, 1, 0], off_color:List[float] = [0, 0, 1], tooltip:str = "keys to move the bot"):
+    def __init__(self, text:str="movement",toggle_duration:float=0.5, actions:Callable[[List[Any]],List[Any]]=[None,None,None,None,None],toggle_once:bool=False, on_color:List[float] = [0, 1, 0], off_color:List[float] = [0, 0, 1], tooltip:str = "keys to move the bot"):
         
-
+        self.duration=toggle_duration
         on_text=text
         if create_dpad._instances_created >= create_dpad._max_instances:
             raise Exception("Only one Directional keys can be created")
@@ -1127,6 +1132,7 @@ class create_dpad():
         self.button_id=create_button_manager.create_button(self)
 
         self.box_dim=(250,165)
+    
 
         offset=25
 
@@ -1207,10 +1213,16 @@ class create_dpad():
         self.press_log=[]
         self.last_pressed_key=None
         self.speed=5
-        self.reset_duration=0.25
+        self.reset_duration=self.duration
+
+        self.default_action=actions[0]
+        self.w_action=actions[1]
+        self.a_action=actions[2]
+        self.s_action=actions[3]
+        self.d_action=actions[4]
     
 
-    def update(self,key_press:int,output:np.ndarray=None,actions:Callable[[List[Any]],List[Any]]=[None,None,None,None,None]):
+    def update(self,key_press:int,output:np.ndarray=None):
 
         '''
         Purpose:
@@ -1225,30 +1237,6 @@ class create_dpad():
         `output` :  [ None | np.array ]
             Its the result of button press
         
-        `actions` :  [ List[functions] ]
-            Its the functions that run when None, w, a, s, d is pressed accordingly
-
-        `steps` :  [ int ]
-            Its the amount of steps on the slider between minimum and maximum. 
-
-        `return_int` : [ Boolean ]
-            If true will store intger value of slider
-            if false will store float value os slider
-
-        `return_odd_int` : [ Boolean ]
-            If true will store odd intger value of slider (used for blur where odd integers are needed)
-            if false will store float value os slider 
-
-        `on_color` : [ List(1x3) ]
-            Its the color of the button border
-
-        `toggle_once` : [ Boolean ]
-            If true will run callback function every update
-            if false will run callback function once everytime state changes
-
-        `tooltip` : [ str ]
-            This text will display when you hover mouse on the button can provide furthur information of button states
-
         Returns:
         ---
         None
@@ -1257,12 +1245,6 @@ class create_dpad():
         ---
         button5.update()
         '''
-
-        default_action=actions[0]
-        w_action=actions[1]
-        a_action=actions[2]
-        s_action=actions[3]
-        d_action=actions[4]
 
         
 
@@ -1283,23 +1265,23 @@ class create_dpad():
 
         
         if self.last_pressed_key==ord("w"):
-            if w_action is not None:
-                w_action()
+            if self.w_action is not None:
+                self.w_action()
             self.box_color_w=self.color_active
             self.text_color_w=self.color_default
             self.circle_pos[1]=self.circle_pos[1]-self.speed
 
         elif self.last_pressed_key==ord("a"):
-            if a_action is not None:
-                a_action()
+            if self.a_action is not None:
+                self.a_action()
             self.box_color_a=self.color_active
             self.text_color_a=self.color_default
             self.circle_pos[0]=self.circle_pos[0]-self.speed
             
 
         elif self.last_pressed_key==ord("s"):
-            if s_action is not None:
-                s_action()
+            if self.s_action is not None:
+                self.s_action()
             self.box_color_s=self.color_active
             self.text_color_s=self.color_default
             self.circle_pos[1]=self.circle_pos[1]+self.speed
@@ -1307,15 +1289,15 @@ class create_dpad():
 
 
         elif self.last_pressed_key==ord("d"):
-            if d_action is not None:
-                d_action()
+            if self.d_action is not None:
+                self.d_action()
             self.box_color_d=self.color_active
             self.text_color_d=self.color_default
             self.circle_pos[0]=self.circle_pos[0]+self.speed
 
         if time.time()-self.reset_time> self.reset_duration:
-            if default_action is not None:
-                default_action()
+            if self.default_action is not None:
+                self.default_action()
             self.reset_time=time.time()
             self.last_pressed_key=None
             self.box_color_w=self.color_default
