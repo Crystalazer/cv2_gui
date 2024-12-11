@@ -143,4 +143,4 @@ Hovering over the button will display the tooltip.
   </div>
 </div>
 
-  
+![alt text](media/cycle_video.gif)
