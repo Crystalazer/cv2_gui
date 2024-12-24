@@ -14,7 +14,7 @@ class create_button_manager():
 
     num_of_active_buttons = 0
     max_buttons = 10
-    gui_size = (600,300,3)
+    gui_size = [600,300,3]
     gui_background = np.zeros(gui_size)
     gui_name = "cv2 gui"
 
@@ -45,6 +45,7 @@ class create_button_manager():
 
     instant_x=0
     instant_y=0
+    mouse_event=None
 
     bgr_value=[0,0,0]
     hsv_value=[0,0,0]
@@ -78,10 +79,18 @@ class create_button_manager():
 
         create_button_manager.instant_x=x
         create_button_manager.instant_y=y
+        create_button_manager.mouse_event=event
 
     
     def process_images(self,image):
-        image = cv2.resize(image,(800,600))
+        height,width,depth=image.shape
+        if height!=create_button_manager.gui_size[0]:
+            scaling_factor=create_button_manager.gui_size[0]/height
+            image = cv2.resize(image,(int(height*scaling_factor),create_button_manager.gui_size[0]))
+
+        if len(image.shape)==2:
+            image=cv2.merge([image,image,image])
+
         images=[self.image_modified,image]
         processed_images = []
         for image in images:
@@ -134,6 +143,8 @@ class create_button_manager():
                         button.update(self.key_pressed)
                     else:
                         button.update()
+
+        
 
 
 
@@ -188,6 +199,13 @@ class create_button_manager():
 
 
         self.key_pressed=cv2.waitKey(1)
+
+        if self.key_pressed == ord("r"):
+            for button_type in self.button_dict:
+                if button_type in ["slider"] and self.button_dict[button_type] != []:
+                    for button in self.button_dict[button_type]:
+                        if button_type=="slider":
+                            button.reset()
 
         if self.key_pressed == ord("q"):
             cv2.destroyAllWindows()
@@ -618,7 +636,7 @@ class create_eyedropper:
 
     Returns:
     ---
-    None
+    None 
 
     Example call:
     ---
@@ -926,7 +944,7 @@ class create_slider():
 
         Example call:
         ---
-        button4.update
+        button4.update()
         '''
 
         control_frame=create_button_manager.image_modified
@@ -1073,6 +1091,34 @@ class create_slider():
 
   
         return
+    
+    def reset(self):
+        '''
+        Purpose:
+        ---
+        Reset the slider to default/initial state.
+
+        Input Arguments:
+        ---
+        None
+
+        Returns:
+        ---
+        None
+
+        Example call:
+        ---
+        button4.reset()
+        '''
+
+        if self.ranged:
+            self.slider_val=self.lower
+            self.slider_val_upper=self.upper
+        else:
+            self.slider_val=self.lower
+
+
+
 
 
 class create_dpad():

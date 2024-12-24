@@ -81,9 +81,10 @@ first argument of `update` is `argument_on` which will be passed to `on_callabck
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
+
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/toggle_video.gif" width="600" />
+    <img src="https://raw.githubusercontent.com/Crystalazer/cv2_gui/main/media/toggle_video.gif" width="600" />
     <p><em>Toggle Button Demo</em></p>
   </div>
 </div>
@@ -138,7 +139,7 @@ Hovering over the button will display the tooltip.
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/cycle_video.gif" width="600" />
+    <img src="https://raw.githubusercontent.com/Crystalazer/cv2_gui/main/media/cycle_video.gif" width="600" />
     <p><em>Cycle Button Demo</em></p>
   </div>
 </div>
@@ -183,9 +184,11 @@ The value of the slider is stored in `slider.value` and is updated everytime `bu
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
+Pressing `r` on the keyboard will reset all sliders to default state
+
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/slider_video.gif" width="600" />
+    <img src="https://raw.githubusercontent.com/Crystalazer/cv2_gui/main/media/slider_video.gif" width="600" />
     <p><em>Slider Demo</em></p>
   </div>
 </div>
@@ -228,9 +231,11 @@ The value of the slider is stored in `slider.value` as a list where `slider.valu
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
+Pressing `r` on the keyboard will reset all sliders to default state
+
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/slider_ranged_video.gif" width="600" />
+    <img src="https://raw.githubusercontent.com/Crystalazer/cv2_gui/main/media/slider_ranged_video.gif" width="600" />
     <p><em>Slider Ranged Demo</em></p>
   </div>
 </div>
@@ -273,7 +278,7 @@ Hovering over the button will display the tooltip.
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/eyedropper_video.gif" width="600" />
+    <img src="https://raw.githubusercontent.com/Crystalazer/cv2_gui/main/media/eyedropper_video.gif" width="600" />
     <p><em>Eyedropper Demo</em></p>
   </div>
 </div>
@@ -341,7 +346,7 @@ Hovering over the button will display the tooltip.
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
-    <img src="media/dpad_demo.gif" width="600" />
+    <img src="https://raw.githubusercontent.com/Crystalazer/cv2_gui/main/media/dpad_demo.gif" width="600" />
     <p><em>Dpad Demo</em></p>
   </div>
 </div>
