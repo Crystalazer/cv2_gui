@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="cv2_gui",
-    version="0.3.5",
+    version="0.4.0",
     description="A library to create buttons using OpenCV (cv2)",
     long_description=long_description,  # Add the project description
     long_description_content_type="text/markdown",  # Specify content type for Markdown
@@ -21,4 +21,5 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
+    license="MIT",
 )

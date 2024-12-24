@@ -1,0 +1,4 @@
+dist/
+cv2_gui.egg-info/
+/cv2_gui/__pycache__/
+build/

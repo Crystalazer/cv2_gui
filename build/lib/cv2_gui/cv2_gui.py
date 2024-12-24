@@ -72,6 +72,11 @@ class create_button_manager():
         
             create_button_manager.mouse_click=mouse_click
         else:
+            if create_button_manager.mouse_pressed and event == 4:
+                mouse_click=False
+                create_button_manager.mouse_pressed = False
+                create_button_manager.mouse_click = False
+                
             if event == 1:
                 create_button_manager.bgr_value=param[y, x]
                 create_button_manager.hsv_value = cv2.cvtColor(np.array([[param[y, x]]], dtype=np.uint8), cv2.COLOR_BGR2HSV)[0][0]
@@ -83,13 +88,15 @@ class create_button_manager():
 
     
     def process_images(self,image):
+        if len(image.shape)==2:
+            image=cv2.merge([image,image,image])
+
         height,width,depth=image.shape
         if height!=create_button_manager.gui_size[0]:
             scaling_factor=create_button_manager.gui_size[0]/height
-            image = cv2.resize(image,(int(height*scaling_factor),create_button_manager.gui_size[0]))
+            image = cv2.resize(image,((math.ceil(width*scaling_factor),create_button_manager.gui_size[0])))
 
-        if len(image.shape)==2:
-            image=cv2.merge([image,image,image])
+        
 
         images=[self.image_modified,image]
         processed_images = []
@@ -1018,12 +1025,15 @@ class create_slider():
 
             if mouse_click:
                 self.held=True
+                
+            
 
         
 
         else:
             self.hovering=False
             self.display_tooltip=False
+
 
         if self.hovering:
             if time.time()-self.hover_start_time >2:

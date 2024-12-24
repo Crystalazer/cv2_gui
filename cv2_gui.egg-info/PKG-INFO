@@ -1,10 +1,11 @@
 Metadata-Version: 2.1
 Name: cv2-gui
-Version: 0.3.5
+Version: 0.4.0
 Summary: A library to create buttons using OpenCV (cv2)
 Home-page: https://github.com/Crystalazer/cv2_gui
 Author: Tarun Shenoy
 Author-email: tgshenoy1@gmail.com
+License: MIT
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -198,6 +199,8 @@ The value of the slider is stored in `slider.value` and is updated everytime `bu
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
 
+Pressing `r` on the keyboard will reset all sliders to default state
+
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
     <img src="https://raw.githubusercontent.com/Crystalazer/cv2_gui/main/media/slider_video.gif" width="600" />
@@ -242,6 +245,8 @@ The value of the slider is stored in `slider.value` as a list where `slider.valu
 
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
+
+Pressing `r` on the keyboard will reset all sliders to default state
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
