@@ -18,6 +18,9 @@ class create_button_manager():
     gui_background = np.zeros(gui_size)
     gui_name = "cv2 gui"
 
+    left_key=2424832
+    right_key=2555904
+
     image_size=(600,800,3)
     image_default=np.zeros(gui_size)
     sample_img=np.zeros(image_size)
@@ -148,6 +151,15 @@ class create_button_manager():
                     if button_type=="dpad":
 
                         button.update(self.key_pressed)
+                    elif button_type=="slider":
+                        button.update()
+                        if button.held or button.held_upper:
+                            for sliders in self.button_dict[button_type]:
+                                if button!=sliders:
+                                    sliders.last_active=False
+                                else:
+                                    sliders.last_active=True
+
                     else:
                         button.update()
 
@@ -205,7 +217,61 @@ class create_button_manager():
         cv2.setMouseCallback("cv2_window",self.mouse_callback,param=combined_image)
 
 
-        self.key_pressed=cv2.waitKey(1)
+        self.key_pressed=cv2.waitKeyEx(1)
+
+        if self.key_pressed==create_button_manager.right_key:
+            for sliders in self.button_dict["slider"]:
+                if sliders.last_active:
+                    dict_keys=list(sliders.coordinates.keys())
+                    if sliders.last_active_button=="left":
+                        for key in sliders.coordinates:
+                            if sliders.slider_val==key:
+                                if key != dict_keys[-1]:
+                                    index=dict_keys.index(key)
+                                    value=dict_keys[index+1]
+                                    if sliders.ranged:
+                                        if value <sliders.slider_val_upper:
+                                            sliders.slider_val=value
+                                            break
+                                    else:
+                                        sliders.slider_val=value
+                                        break
+
+                    if sliders.last_active_button=="right":
+                        for key in sliders.coordinates:
+                            if sliders.slider_val_upper==key:
+                                if key != dict_keys[-1]:
+                                    index=dict_keys.index(key)
+                                    value=dict_keys[index+1]
+                                    sliders.slider_val_upper=value
+                                    break
+                    
+        elif self.key_pressed==create_button_manager.left_key:
+            for sliders in self.button_dict["slider"]:
+                if sliders.last_active:
+                    dict_keys=list(sliders.coordinates.keys())
+                    if sliders.last_active_button=="left":
+                        for key in sliders.coordinates:
+                            if sliders.slider_val==key:
+                                if key != dict_keys[0]:
+                                    index=dict_keys.index(key)
+                                    value=dict_keys[index-1]
+                                    sliders.slider_val=value
+                                    break
+
+                    if sliders.last_active_button=="right":
+                        for key in sliders.coordinates:
+                            if sliders.slider_val_upper==key:
+                                if key != dict_keys[0]:
+                                    index=dict_keys.index(key)
+                                    value=dict_keys[index-1]
+                                    if value >sliders.slider_val:
+                                        sliders.slider_val_upper=value
+                                        break
+                                    
+
+
+                    
 
         if self.key_pressed == ord("r"):
             for button_type in self.button_dict:
@@ -213,6 +279,8 @@ class create_button_manager():
                     for button in self.button_dict[button_type]:
                         if button_type=="slider":
                             button.reset()
+
+        
 
         if self.key_pressed == ord("q"):
             cv2.destroyAllWindows()
@@ -863,6 +931,8 @@ class create_slider():
         create_button_manager.button_dict["slider"].append(self)
 
         self.return_val=None
+        self.last_active=False
+        self.last_active_button=None
 
         self.box_dim=(250,50)
         self.box_offset=[(create_button_manager.gui_size[1]-self.box_dim[0])//2,10]
@@ -986,6 +1056,8 @@ class create_slider():
         if self.held and create_button_manager.mouse_pressed:
             mouse_x = create_button_manager.instant_x
             mouse_y = create_button_manager.instant_y
+            self.last_active_button="left"
+
             for i in range(len(color)):
                 if color[i]>0:
                     color[i]=max(0,color[i]-0.2)
@@ -999,6 +1071,7 @@ class create_slider():
         elif self.held_upper and create_button_manager.mouse_pressed:
             mouse_x = create_button_manager.instant_x
             mouse_y = create_button_manager.instant_y
+            self.last_active_button="right"
             for i in range(len(color_upper)):
                 if color_upper[i]>0:
                     color_upper[i]=max(0,color_upper[i]-0.2)

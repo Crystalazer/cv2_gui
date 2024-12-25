@@ -172,6 +172,8 @@ import numpy as np
 slider = create_slider("Blur",0,100,100,return_odd_int=True,tooltip="define values for blur amount")
 ```
 this will create a slider which will store the current value and when we drag the slider update the value.
+
+Alternatively you can use `left` and `right` arrow keys to move the last selected slider
 ```python
 while 1:
     sample = cv2.imread('sample.png')
@@ -218,6 +220,8 @@ import numpy as np
 slider = create_slider("Light Filter",0,255,200,ranged=True,return_odd_int=True,tooltip="define values for blur amount")
 ```
 this will create a slider which will store the lower and upper value and when we drag the slider update the value.
+
+Alternatively you can use `left` and `right` arrow keys to move the last selected slider
 ```python
 while 1:
     sample = cv2.imread('sample.png')
