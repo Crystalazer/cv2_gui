@@ -1024,8 +1024,8 @@ class create_slider():
         self.coordinates.popitem()
         self.coordinates[self.upper]=self.upper_value
 
-        dict_list_values=self.coordinates.values()
-        dict_list_keys=self.coordinates.keys()
+        dict_list_values=list(self.coordinates.values())
+        dict_list_keys=list(self.coordinates.keys())
 
 
         if self.ranged:
@@ -1040,7 +1040,7 @@ class create_slider():
                 if index_lower==index_upper:
                     self.slider_val_upper=dict_list_keys[index_upper+1]
                 else:
-                    self.slider_val_upper=dict_list_keys[index_upper+1]
+                    self.slider_val_upper=dict_list_keys[index_upper]
                 
         else:
             if self.initial_value is not None:
@@ -1055,7 +1055,7 @@ class create_slider():
         return closest_key
     
     def find_closest_value(self,dictionary, num):
-        closest_value = min(dictionary.values(), value=lambda x: abs(x - num))
+        closest_value = min(dictionary.values(), key=lambda x: abs(x - num))
         return closest_value
     
     def update(self):
