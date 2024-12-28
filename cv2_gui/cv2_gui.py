@@ -876,15 +876,22 @@ class create_slider():
         Its the upper threshold or maximum value of the slider.
 
     `steps` :  [ int ]
-        Its the amount of steps on the slider between minimum and maximum. 
+        Its the amount of steps on the slider between minimum and maximum.
+
+    `initial_value` :  [ int | float | list]
+        Initial value of slider if ranged is true initial value for both lower and upper values.   
+
+    `ranged` :  [ bool ]
+        If true slider will have upper and lower value.
+        if false slider will have only lower value. 
 
     `return_int` : [ Boolean ]
-        If true will store intger value of slider
-        if false will store float value os slider
+        If true will store integer value of slider.
+        if false will store float value os slider.
 
     `return_odd_int` : [ Boolean ]
-        If true will store odd intger value of slider (used for blur where odd integers are needed)
-        if false will store float value os slider 
+        If true will store odd integer value of slider (used for blur where odd integers are needed)
+        if false will store float value os slider. 
 
     `on_color` : [ List(1x3) ]
         Its the color of the button border
@@ -905,7 +912,7 @@ class create_slider():
     button4 = create_slider("slider",0,100,100)
     '''
 
-    def __init__(self, text:str, lower_range:int | float,upper_range:int | float,steps:int,ranged:bool=False, return_int:bool=True,return_odd_int:bool=False, toggle_once:bool=False, on_color:List[float] = [0.5, 0, 0], tooltip:str = ""):
+    def __init__(self, text:str, lower_range:int | float,upper_range:int | float,steps:int, initial_value:int | float=None, ranged:bool=False, return_int:bool=True,return_odd_int:bool=False, toggle_once:bool=False, on_color:List[float] = [0.5, 0, 0], tooltip:str = ""):
         
         if steps>200:
             raise ValueError("steps cannot exceed 200")
@@ -923,6 +930,23 @@ class create_slider():
         
         if type(ranged) != type(True):
             raise TypeError("ranged must be a bool")
+
+        if ranged:
+            if type(initial_value) != type([]) and initial_value is not None:
+                raise TypeError("initial_value must be list of integers/float")
+            if len(initial_value)!=2:
+                raise TypeError("initial_value must be a list of 2 integers/float")
+            
+            if initial_value[0]>=initial_value[1]:
+                raise TypeError("First element of inital_value must be lesser than second element")
+
+
+
+        else:
+            if initial_value is not None and type(initial_value) != type(1) and type(initial_value) != type(1.0):
+                raise TypeError("initial_value must be an integer or float")
+
+            
         
 
 
@@ -971,6 +995,7 @@ class create_slider():
         self.steps=steps
         self.held=False
         self.held_upper=False
+        self.initial_value=initial_value
 
 
         self.slider_val=self.lower
@@ -999,10 +1024,39 @@ class create_slider():
         self.coordinates.popitem()
         self.coordinates[self.upper]=self.upper_value
 
+        dict_list_values=self.coordinates.values()
+        dict_list_keys=self.coordinates.keys()
+
+
+        if self.ranged:
+            if type(self.initial_value) == type([1]):
+                closest_value_lower=self.find_closest_value(self.coordinates,self.initial_value[0])
+                index_lower=dict_list_values.index(closest_value_lower)
+                self.slider_val=dict_list_keys[index_lower]
+
+                closest_value_upper=self.find_closest_value(self.coordinates,self.initial_value[1])
+                index_upper=dict_list_values.index(closest_value_upper)
+
+                if index_lower==index_upper:
+                    self.slider_val_upper=dict_list_keys[index_upper+1]
+                else:
+                    self.slider_val_upper=dict_list_keys[index_upper+1]
+                
+        else:
+            if self.initial_value is not None:
+                closest_value=self.find_closest_value(self.coordinates,self.initial_value)
+                index=dict_list_values.index(closest_value)
+                self.slider_val=dict_list_keys[index]
+                
+
     
-    def find_closest_value(self,dictionary, num):
+    def find_closest_key(self,dictionary, num):
         closest_key = min(dictionary.keys(), key=lambda x: abs(x - num))
         return closest_key
+    
+    def find_closest_value(self,dictionary, num):
+        closest_value = min(dictionary.values(), value=lambda x: abs(x - num))
+        return closest_value
     
     def update(self):
 
@@ -1063,10 +1117,10 @@ class create_slider():
                     color[i]=max(0,color[i]-0.2)
 
             if self.ranged:
-                if self.slider_val_upper> self.find_closest_value(self.coordinates,mouse_x):
-                    self.slider_val=self.find_closest_value(self.coordinates,mouse_x)
+                if self.slider_val_upper> self.find_closest_key(self.coordinates,mouse_x):
+                    self.slider_val=self.find_closest_key(self.coordinates,mouse_x)
             else:
-                self.slider_val=self.find_closest_value(self.coordinates,mouse_x)
+                self.slider_val=self.find_closest_key(self.coordinates,mouse_x)
 
         elif self.held_upper and create_button_manager.mouse_pressed:
             mouse_x = create_button_manager.instant_x
@@ -1075,8 +1129,8 @@ class create_slider():
             for i in range(len(color_upper)):
                 if color_upper[i]>0:
                     color_upper[i]=max(0,color_upper[i]-0.2)
-            if self.slider_val< self.find_closest_value(self.coordinates,mouse_x):
-                self.slider_val_upper=self.find_closest_value(self.coordinates,mouse_x)
+            if self.slider_val< self.find_closest_key(self.coordinates,mouse_x):
+                self.slider_val_upper=self.find_closest_key(self.coordinates,mouse_x)
 
 
         else: 

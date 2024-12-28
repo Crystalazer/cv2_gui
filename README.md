@@ -149,17 +149,20 @@ Hovering over the button will display the tooltip.
 A slider allows users to adjust a value by dragging a handle along a track, with the value returned for use in other actions or settings.
 
 #### Parameters for `create_slider`
-| **Parameter**     | **Type**      | **Description**                                                                                                                                  |
-|-------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| `text`            | String        | The text that will be displayed on the slider.                                                                                                   |
-| `lower_range`     | int / float  | The lower threshold or minimum value of the slider.                                                                                             |
-| `upper_range`     | int / float  | The upper threshold or maximum value of the slider.                                                                                             |
-| `steps`           | int           | The number of steps on the slider between minimum and maximum.                                                                                  |
-| `return_int`      | Boolean       | If true, will store the integer value of the slider. If false, will store the float value of the slider.                                        |
-| `return_odd_int`  | Boolean       | If true, will store an odd integer value of the slider (used for blur where odd integers are needed). If false, will store the float value.    |
-| `on_color`        | List(1x3)      | The color of the button border (RGB color value).                                                                                              |
-| `toggle_once`     | Boolean       | If true, will run the callback function on every update. If false, will run the callback function once every time the state changes.            |
-| `tooltip`         | String        | The text displayed when you hover the mouse over the button, providing further information about the button's states.                           |
+
+| **Parameter**      | **Type**       | **Description**                                                                                                                                                  |
+|--------------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `text`             | `String`       | The text displayed as the label for the slider and its window.                                                                                                  |
+| `lower_range`      | `int` / `float`| The lower threshold or minimum value of the slider range.                                                                                                       |
+| `upper_range`      | `int` / `float`| The upper threshold or maximum value of the slider range.                                                                                                       |
+| `steps`            | `int`          | The step size for the slider, which determines the granularity of adjustments.                                                                                  |
+| `initial_value`    | `int` / `float`| The initial value that the slider starts with. If not provided, it defaults to the `lower_range`.                                                               |
+| `ranged`           | `Boolean`      | If `True`, creates a dual slider to select both minimum and maximum values within the range. If `False`, creates a single slider.                                |
+| `return_int`       | `Boolean`      | If `True`, ensures the slider's output is an integer. If `False`, allows for floating-point values (based on `steps`).                                          |
+| `return_odd_int`   | `Boolean`      | If `True`, ensures the slider's output is an odd integer. Useful for tasks like setting kernel sizes in image processing.                                        |
+| `on_color`         | `List` (1x3)   | RGB values defining the color of the slider's border or track when active.                                                                                      |
+| `toggle_once`      | `Boolean`      | If `True`, runs the associated callback function only once per state change. If `False`, continuously triggers the callback as the slider is adjusted.           |
+| `tooltip`          | `String`       | The tooltip text shown when hovering over the slider or its associated label, providing additional information about its function.                               |
 
 #### example with `ranged = False`
 
