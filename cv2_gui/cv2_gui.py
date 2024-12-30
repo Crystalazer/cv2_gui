@@ -934,11 +934,12 @@ class create_slider():
         if ranged:
             if type(initial_value) != type([]) and initial_value is not None:
                 raise TypeError("initial_value must be list of integers/float")
-            if len(initial_value)!=2:
-                raise TypeError("initial_value must be a list of 2 integers/float")
-            
-            if initial_value[0]>=initial_value[1]:
-                raise TypeError("First element of inital_value must be lesser than second element")
+            if initial_value is not None:
+                if len(initial_value)!=2:
+                    raise TypeError("initial_value must be a list of 2 integers/float")
+                
+                if initial_value[0]>=initial_value[1]:
+                    raise TypeError("First element of inital_value must be lesser than second element")
 
 
 
@@ -1024,29 +1025,29 @@ class create_slider():
         self.coordinates.popitem()
         self.coordinates[self.upper]=self.upper_value
 
-        dict_list_values=list(self.coordinates.values())
-        dict_list_keys=list(self.coordinates.keys())
+        self.dict_list_values=list(self.coordinates.values())
+        self.dict_list_keys=list(self.coordinates.keys())
 
 
         if self.ranged:
             if type(self.initial_value) == type([1]):
                 closest_value_lower=self.find_closest_value(self.coordinates,self.initial_value[0])
-                index_lower=dict_list_values.index(closest_value_lower)
-                self.slider_val=dict_list_keys[index_lower]
+                self.index_lower=self.dict_list_values.index(closest_value_lower)
+                self.slider_val=self.dict_list_keys[self.index_lower]
 
                 closest_value_upper=self.find_closest_value(self.coordinates,self.initial_value[1])
-                index_upper=dict_list_values.index(closest_value_upper)
+                self.index_upper=self.dict_list_values.index(closest_value_upper)
 
-                if index_lower==index_upper:
-                    self.slider_val_upper=dict_list_keys[index_upper+1]
+                if self.index_lower==self.index_upper:
+                    self.slider_val_upper=self.dict_list_keys[self.index_upper+1]
                 else:
-                    self.slider_val_upper=dict_list_keys[index_upper]
+                    self.slider_val_upper=self.dict_list_keys[self.index_upper]
                 
         else:
             if self.initial_value is not None:
                 closest_value=self.find_closest_value(self.coordinates,self.initial_value)
-                index=dict_list_values.index(closest_value)
-                self.slider_val=dict_list_keys[index]
+                self.index=self.dict_list_values.index(closest_value)
+                self.slider_val=self.dict_list_keys[self.index]
                 
 
     
@@ -1251,8 +1252,16 @@ class create_slider():
         if self.ranged:
             self.slider_val=self.lower
             self.slider_val_upper=self.upper
+            if type(self.initial_value) == type([1]):
+                self.slider_val=self.dict_list_keys[self.index_lower]
+                if self.index_lower==self.index_upper:
+                    self.slider_val_upper=self.dict_list_keys[self.index_upper+1]
+                else:
+                    self.slider_val_upper=self.dict_list_keys[self.index_upper]
         else:
             self.slider_val=self.lower
+            if self.initial_value is not None:
+                self.slider_val=self.dict_list_keys[self.index]
 
 
 
