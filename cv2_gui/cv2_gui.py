@@ -2,6 +2,7 @@ import time
 import cv2
 import numpy as np
 import math
+import platform
 from typing import Callable, Optional, Any, List
 
 
@@ -12,18 +13,29 @@ class create_button_manager():
     Call create_button_manager.update() at the end.
     """
 
+    os_name = platform.system()
+
+    if os_name == "Windows":
+        left_key = 2424832
+        right_key = 2555904
+    elif os_name == "Linux":
+        left_key = 65361
+        right_key = 65363
+
     num_of_active_buttons = 0
     max_buttons = 10
     gui_size = [600,300,3]
     gui_background = np.zeros(gui_size)
     gui_name = "cv2 gui"
 
-    left_key=2424832
-    right_key=2555904
 
     image_size=(600,800,3)
     image_default=np.zeros(gui_size)
     sample_img=np.zeros(image_size)
+
+    divider_size=(600,25,3)
+    divider_img=np.zeros(divider_size)
+
 
     image_modified=image_default.copy()
 
@@ -91,23 +103,51 @@ class create_button_manager():
 
     
     def process_images(self,image):
-        if len(image.shape)==2:
-            image=cv2.merge([image,image,image])
 
-        height,width,depth=image.shape
-        if height!=create_button_manager.gui_size[0]:
-            scaling_factor=create_button_manager.gui_size[0]/height
-            image = cv2.resize(image,((math.ceil(width*scaling_factor),create_button_manager.gui_size[0])))
-
-        
-
-        images=[self.image_modified,image]
+        images=[self.image_modified]
         processed_images = []
-        for image in images:
-            resized_image = cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
-            resized_image = cv2.convertScaleAbs(resized_image)
-            processed_images.append(resized_image)
-        combined_image = cv2.hconcat(processed_images)
+
+
+        if type(image)==type(self.image_modified):
+            if len(image.shape)==2:
+                image=cv2.merge([image,image,image])
+
+            height,width,depth=image.shape
+            if height!=create_button_manager.gui_size[0]:
+                scaling_factor=create_button_manager.gui_size[0]/height
+                image = cv2.resize(image,((math.ceil(width*scaling_factor),create_button_manager.gui_size[0])))
+
+            
+
+            images.append(image)
+
+            for image in images:
+                resized_image = cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
+                resized_image = cv2.convertScaleAbs(resized_image)
+                processed_images.append(resized_image)
+            combined_image = cv2.hconcat(processed_images)
+        
+        elif type(image)==type([]):
+            for img in image:
+                if len(img.shape)==2:
+                    img=cv2.merge([img,img,img])
+
+                height,width,depth=img.shape
+                if height!=create_button_manager.gui_size[0]:
+                    scaling_factor=create_button_manager.gui_size[0]/height
+                    img = cv2.resize(img,((math.ceil(width*scaling_factor),create_button_manager.gui_size[0])))
+
+                images.append(img)
+                images.append(self.divider_img)
+            
+            images=images[:-1]
+
+            for image in images:
+                resized_image = cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
+                resized_image = cv2.convertScaleAbs(resized_image)
+                processed_images.append(resized_image)
+            combined_image = cv2.hconcat(processed_images)
+
         
         return combined_image
 
@@ -324,6 +364,10 @@ class create_toggle_button:
     `off_color` : [ List(1x3) ]
         Its the color of the button in off state
 
+    `keybind` : [ str ]
+        This is a shortcut key which will trigger the button
+
+
     `tooltip` : [ str ]
         This text will display when you hover mouse on the button can provide furthur information of button states
 
@@ -337,7 +381,7 @@ class create_toggle_button:
     button1 = create_toggle_button("on", "off",on_function, off_function)
     '''
 
-    def __init__(self, on_text:str, off_text:str, on_callback:Callable[[List[Any]],List[Any]], off_callback:Optional[Callable[[List[Any]],List[Any]]]=None,toggle_once:bool=False, on_color:list[int] = [0, 1, 0], off_color:list[int] = [0, 0, 1], tooltip:str = "A toggle button"):
+    def __init__(self, on_text:str, off_text:str, on_callback:Callable[[List[Any]],List[Any]], off_callback:Optional[Callable[[List[Any]],List[Any]]]=None,toggle_once:bool=False, on_color:list[int] = [0, 1, 0], off_color:list[int] = [0, 0, 1],keybind:str=None ,tooltip:str = "A toggle button"):
         
         if type(on_text)!=str:
             raise TypeError("on_text must be a string")
@@ -352,9 +396,37 @@ class create_toggle_button:
 
         if type(tooltip) != type("1"):
             raise TypeError("tooltip must be a string")
-
         
-        self.tooltip=tooltip
+        if keybind!=" " and keybind is not None:
+            if type(keybind)!=type('1'):
+                raise TypeError("keybind must be a character")
+
+            if len(keybind)!=1:
+                raise TypeError("keybind must be a single alphabetical character")
+            
+            if not keybind.isalpha():
+                raise TypeError("keybind must be a single alphabetical character")
+            
+            if keybind.lower()=="q":
+                raise ValueError("keybind cannot be assigned to 'q' as it would conflict with exit button")
+        
+            self.keybind=keybind.lower()
+        
+        elif keybind==" ":
+            self.keybind = keybind
+
+        elif keybind is None:
+            self.keybind = keybind
+
+
+
+        if self.keybind is not None and self.keybind !=" ":
+            self.tooltip=tooltip+" shortcut key : "+"'"+str(self.keybind)+"'"
+        if self.keybind !=" ":
+            self.tooltip=tooltip+" shortcut key : "+"'space-bar'"
+        if self.keybind is None:
+            self.tooltip=tooltip
+
         self.button_id=create_button_manager.create_button(self)
         create_button_manager.button_dict["toggle"].append(self)
 
@@ -421,7 +493,6 @@ class create_toggle_button:
         
         if argument_on is not None:
             self.arguments=[argument_off,argument_on]
-        
         else:
             self.arguments=[[None],[None]]
 
@@ -433,6 +504,13 @@ class create_toggle_button:
         color=self.box_color[self.state].copy()
 
         offset = 0
+
+        if self.keybind is not None:
+            if create_button_manager.key_pressed == ord(self.keybind):
+                if self.state!=0:
+                    self.state=0
+                else:
+                    self.state=1
 
         if mouse_x>self.start_x and mouse_x<self.start_x+self.box_dim[0] and mouse_y>self.start_y and mouse_y<self.start_y+self.box_dim[1]:
 
@@ -720,7 +798,7 @@ class create_eyedropper:
 
     _max_instances = 1
     _instances_created = 0
-    def __init__(self, on_text="Click on image", off_text="Eyedropper tool", toggle_once=False, on_color = [0, 1, 0], off_color = [0, 0, 1], tooltip = "Click anywhere on the image to get pixel value"):
+    def __init__(self, on_text="Click on image", off_text="Eyedropper tool", toggle_once=False, on_color = [0, 1, 0], off_color = [0, 0, 1], tooltip = "Click anywhere on the image to get pixel value, shortcut key : 'i'"):
         
         if create_eyedropper._instances_created >= create_eyedropper._max_instances:
             raise Exception("Only one eyedropper can be created")
@@ -794,6 +872,8 @@ class create_eyedropper:
 
         offset = 0
 
+
+
         if self.active:
             if self.bgr_value is not create_button_manager.bgr_value:
                 self.bgr_value=create_button_manager.bgr_value
@@ -801,7 +881,16 @@ class create_eyedropper:
                 self.state=0
                 self.active=False
                 create_button_manager.mouse_click=False
+        else:
+            create_button_manager.bgr_value=self.bgr_value
         
+        if create_button_manager.key_pressed==ord("i"):
+            if self.state!=0:
+                    self.state=0
+                    self.active=False
+            else:
+                self.state=1
+                self.active=True
 
 
         if mouse_x>self.start_x and mouse_x<self.start_x+self.box_dim[0] and mouse_y>self.start_y and mouse_y<self.start_y+self.box_dim[1]:
@@ -1217,9 +1306,9 @@ class create_slider():
         cv2.putText(control_frame,self.box_text[self.state],(self.start_x+5, self.start_y+20 ),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.75,self.text_color[self.state],1)
         
         if self.ranged:
-            cv2.putText(control_frame,str(round(self.return_val[0],2))+"-"+str(round(self.return_val[1],2)),(self.start_x+220-7*len(str(round(self.return_val[0],2))+"-"+str(round(self.return_val[1],2))), self.start_y+20 ),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.75,self.text_color[self.state],1)
+            cv2.putText(control_frame,str(round(self.return_val[0],3))+"-"+str(round(self.return_val[1],3)),(self.start_x+220-7*len(str(round(self.return_val[0],3))+"-"+str(round(self.return_val[1],3))), self.start_y+20 ),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.75,self.text_color[self.state],1)
         else:    
-            cv2.putText(control_frame,str(round(self.return_val,2)),(self.start_x+220-5*len(str(round(self.return_val,2))), self.start_y+20 ),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.75,self.text_color[self.state],1)
+            cv2.putText(control_frame,str(round(self.return_val,3)),(self.start_x+220-5*len(str(round(self.return_val,3))), self.start_y+20 ),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.75,self.text_color[self.state],1)
 
         cv2.line(control_frame,(self.start_x+20, self.start_y+35 ),(self.start_x+230, self.start_y+35),self.text_color[self.state],2)
         cv2.circle(control_frame,self.circle_center,self.radius,color,-1)

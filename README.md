@@ -50,6 +50,7 @@ Toggle button can switch between on and off state performing 1 of 2 actions base
 | `toggle_once`    | If `True`, will run the callback function every update; otherwise, it runs the callback only when the state changes. | `bool`              |
 | `on_color`       | The color of the button in the "on" state, represented as a list of RGB values. | `List[float, float, float]` |
 | `off_color`      | The color of the button in the "off" state, represented as a list of RGB values. | `List[float, float, float]` |
+| `keybind`        | This is a shortcut key which will trigger the button. | `str`               |
 | `tooltip`        | The text displayed when you hover over the button, providing additional information about the button's state. | `str`               |
 
 #### example
@@ -80,6 +81,8 @@ first argument of `update` is `argument_on` which will be passed to `on_callabck
 
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
+
+Pressing `keybind` on the keyboard will switch between the states.
 
 
 <div align="center">
@@ -282,6 +285,8 @@ while 1:
 ```
 You can press `q` to close the window and stop execution,
 Hovering over the button will display the tooltip.
+
+`i` is the shortcut key for eyedropper
 
 <div align="center">
   <div style="display: inline-block; margin-right: 20px;">
