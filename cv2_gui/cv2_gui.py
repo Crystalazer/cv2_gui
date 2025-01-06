@@ -387,10 +387,10 @@ class create_toggle_button:
             raise TypeError("on_text must be a string")
         elif type(off_text)!=str:
             raise TypeError("off_text must be a string")
-        elif type(on_callback).__name__!="function" and type(on_callback)!=classmethod and on_callback!=None:
-            raise TypeError("on_callback must be a function")
-        elif type(off_callback).__name__!="function" and type(off_callback)!="method" and off_callback!=None:
-            raise TypeError("off_callback must be a function")
+        elif not callable(on_callback):
+                raise TypeError('on_callback must be a function')
+        elif not callable(on_callback):
+                raise TypeError('on_callback must be a function')
         elif type(toggle_once)!=bool:
             raise TypeError("toggle_once must be a boolean")
 
@@ -596,6 +596,10 @@ class create_cycle_button:
             raise TypeError("modes must be a list of strings")
         if type(callbacks) != type([]):
             raise TypeError("callbacks must be a list of functions")
+        for callback in callbacks:
+            if not callable(callback):
+                raise TypeError('elements of callbacks must be a function')
+
         if type(tooltip) != type("1"):
             raise TypeError("tooltip must be a string")
         
