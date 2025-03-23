@@ -21,6 +21,7 @@ class create_button_manager():
     elif os_name == "Linux":
         left_key = 65361
         right_key = 65363
+        
 
     num_of_active_buttons = 0
     max_buttons = 10
@@ -409,6 +410,8 @@ class create_toggle_button:
             
             if keybind.lower()=="q":
                 raise ValueError("keybind cannot be assigned to 'q' as it would conflict with exit button")
+            if keybind.lower()=="i":
+                raise ValueError("keybind cannot be assigned to 'i' as it reserved for eyedropper shortcut key")
         
             self.keybind=keybind.lower()
         
@@ -422,7 +425,7 @@ class create_toggle_button:
 
         if self.keybind is not None and self.keybind !=" ":
             self.tooltip=tooltip+" shortcut key : "+"'"+str(self.keybind)+"'"
-        if self.keybind !=" ":
+        if self.keybind ==" ":
             self.tooltip=tooltip+" shortcut key : "+"'space-bar'"
         if self.keybind is None:
             self.tooltip=tooltip
